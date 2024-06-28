@@ -1,0 +1,135 @@
+Create following tables : Salesperson and Customer
+
+-> creating database:
+
+ create database shopping_details;
+
+-> using database:
+
+ use shopping_details;
+
+-> create salesperson and customer tables:
+
+ create table salesperson(s_no int primary key, s_name varchar(20) not null, city varchar(20) not null, 
+ commission float(2,2) not null);
+
+ create table customer(c_no int primary key, c_name varchar(20) not null, city varchar(20) not null, rating int not null, 
+ s_no int, foreign key(s_no) references salesperson(s_no));
+
+-> showing tables in database:
+
+ show tables;
++----------------------------+
+| Tables_in_shopping_details |
++----------------------------+
+| customer                   |
+| salesperson                |
++----------------------------+
+
+-> salesperson table and customer details with fields:
+
+ describe salesperson;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| s_no       | int         | NO   | PRI | NULL    |       |
+| s_name     | varchar(20) | NO   |     | NULL    |       |
+| city       | varchar(20) | NO   |     | NULL    |       |
+| commission | float(2,2)  | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+ describe customer;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| c_no   | int         | NO   | PRI | NULL    |       |
+| c_name | varchar(20) | NO   |     | NULL    |       |
+| city   | varchar(20) | NO   |     | NULL    |       |
+| rating | int         | NO   |     | NULL    |       |
+| s_no   | int         | YES  | MUL | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+-> Insert data to tables:
+
+ insert into salesperson values(1001, "Peel", "London", 0.12),(1002, "Serres", "San Jose", 0.13),(1004, "Motika", "London", 0.11)
+ ,(1007, "Rafkin", "Barcelona", 0.15),(1003, "Axelrod", "New York", 0.10);
+
+  insert into customer values(201, "Hoffman", "London", 100, 1001),(202, "Giovanne", "Rome", 200, 1003),
+  (203, "Liu", "San Jose", 300, 1002),(204, "Grass", "Barcelona", 100, 1002),(206, "Clemens", "London", 300, 1007),
+  (207, "Pereira", "Rome", 100, 1004);
+
+-> Display Tables:
+
+ select * from salesperson;
++------+---------+-----------+------------+
+| s_no | s_name  | city      | commission |
++------+---------+-----------+------------+
+| 1001 | Peel    | London    |       0.12 |
+| 1002 | Serres  | San Jose  |       0.13 |
+| 1003 | Axelrod | New York  |       0.10 |
+| 1004 | Motika  | London    |       0.11 |
+| 1007 | Rafkin  | Barcelona |       0.15 |
++------+---------+-----------+------------+
+
+ select * from customer;
++------+----------+-----------+--------+------+
+| c_no | c_name   | city      | rating | s_no |
++------+----------+-----------+--------+------+
+|  201 | Hoffman  | London    |    100 | 1001 |
+|  202 | Giovanne | Rome      |    200 | 1003 |
+|  203 | Liu      | San Jose  |    300 | 1002 |
+|  204 | Grass    | Barcelona |    100 | 1002 |
+|  206 | Clemens  | London    |    300 | 1007 |
+|  207 | Pereira  | Rome      |    100 | 1004 |
++------+----------+-----------+--------+------+
+
+-> Retrieve the below data from above table: 
+
+-> All Customer name whose rating is more than 100.
+
+ select c_name as customer_name from customer where rating > 100;
++---------------+
+| customer_name |
++---------------+
+| Giovanne      |
+| Liu           |
+| Clemens       |
++---------------+
+
+-> Names and cities of all salespeople in London with commission above 0.12
+
+ select s_name, city from salesperson where city = "London" AND commission > 0.12;
+
+"Empty set" 
+
+-> All salespeople either in Barcelona or in London
+
+ select * from salesperson where city = "London" OR city = "Barcelona";
++------+--------+-----------+------------+
+| s_no | s_name | city      | commission |
++------+--------+-----------+------------+
+| 1001 | Peel   | London    |       0.12 |
+| 1004 | Motika | London    |       0.11 |
+| 1007 | Rafkin | Barcelona |       0.15 |
++------+--------+-----------+------------+
+
+-> All salespeople with commission between 0.10 and 0.12. (Boundary values should be excluded).
+
+ select * from salesperson where commission > 0.10 AND commission < 0.12;
++------+--------+--------+------------+
+| s_no | s_name | city   | commission |
++------+--------+--------+------------+
+| 1004 | Motika | London |       0.11 |
++------+--------+--------+------------+
+
+-> All customers excluding those with rating <= 100 unless they are located in Rome
+
+ select * from customer where rating > 100 OR city = "Rome";
++------+----------+----------+--------+------+
+| c_no | c_name   | city     | rating | s_no |
++------+----------+----------+--------+------+
+|  202 | Giovanne | Rome     |    200 | 1003 |
+|  203 | Liu      | San Jose |    300 | 1002 |
+|  206 | Clemens  | London   |    300 | 1007 |
+|  207 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+

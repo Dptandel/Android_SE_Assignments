@@ -1,0 +1,240 @@
+Create following tables : Employee and Incentive
+
+-> creating database:
+
+ create database employee_info;
+
+-> using database:
+
+ use employee_info;
+
+-> create employee table:
+
+ create table employee(employee_id int primary key, first_name varchar(20) not null, last_name varchar(20) not null,
+ salary int not null, joining_date datetime, department varchar(50) not null);
+
+-> showing tables in database:
+
+ show tables;
++-------------------------+
+| Tables_in_employee_info |
++-------------------------+
+| employee                |
+| incentive               |
++-------------------------+
+
+-> employee table details with fields:
+
+ describe employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| employee_id  | int         | NO   | PRI | NULL    |       |
+| first_name   | varchar(20) | NO   |     | NULL    |       |
+| last_name    | varchar(20) | NO   |     | NULL    |       |
+| salary       | int         | NO   |     | NULL    |       |
+| joining_date | datetime    | YES  |     | NULL    |       |
+| department   | varchar(50) | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+-> create incentive table:
+
+ create table incentive ( employee_ref_id int, incentive_date date not null, incentive_amount int not null, 
+ foreign key (employee_ref_id) references employee(employee_id));
+
+-> employee incentive table details with fields:
+
+ describe incentive;
++------------------+------+------+-----+---------+-------+
+| Field            | Type | Null | Key | Default | Extra |
++------------------+------+------+-----+---------+-------+
+| employee_ref_id  | int  | YES  | MUL | NULL    |       |
+| incentive_date   | date | NO   |     | NULL    |       |
+| incentive_amount | int  | NO   |     | NULL    |       |
++------------------+------+------+-----+---------+-------+
+
+-> Insert data to employee table:
+
+ insert into employee values(1, "John", "Abraham", 1000000, "2013-01-01 12:00:00", "Banking");
+
+ insert into employee values(2, "Michael", "Clarke", 800000, "2013-01-01 12:00:00", "Insurance");
+ 
+ insert into employee values(3, "Roy", "Thomas", 700000, "2013-02-01 12:00:00", "Banking"),
+ (4, "Tom", "Jose", 600000, "2013-02-01 12:00:00", "Insurance"),(5, "Jerry", "Pinto", 650000, "2013-02-01 12:00:00", "Insurance"),
+ (6, "Philip", "Mathew", 750000, "2013-01-01 12:00:00", "Services"),(7, "Issac", "Newton", 650000, "2013-01-01 12:00:00", "Services"),
+ (8, "Thomas", "Addison", 600000, "2013-02-01 12:00:00", "Insurance");
+
+-> display all data of employee table:
+
+ select * from employee;
++-------------+------------+-----------+---------+---------------------+------------+
+| employee_id | first_name | last_name | salary  | joining_date        | department |
++-------------+------------+-----------+---------+---------------------+------------+
+|           1 | John       | Abraham   | 1000000 | 2013-01-01 12:00:00 | Banking    |
+|           2 | Michael    | Clarke    |  800000 | 2013-01-01 12:00:00 | Insurance  |
+|           3 | Roy        | Thomas    |  700000 | 2013-02-01 12:00:00 | Banking    |
+|           4 | Tom        | Jose      |  600000 | 2013-02-01 12:00:00 | Insurance  |
+|           5 | Jerry      | Pinto     |  650000 | 2013-02-01 12:00:00 | Insurance  |
+|           6 | Philip     | Mathew    |  750000 | 2013-01-01 12:00:00 | Services   |
+|           7 | Issac      | Newton    |  650000 | 2013-01-01 12:00:00 | Services   |
+|           8 | Thomas     | Addison   |  600000 | 2013-02-01 12:00:00 | Insurance  |
++-------------+------------+-----------+---------+---------------------+------------+
+
+-> Insert data to incentive table:
+
+ insert into incentive values(1, "2013-02-01", 5000),(2, "2013-02-01", 3000),(3, "2013-02-01", 4000),
+ (1, "2013-01-01", 4500),(2, "2013-01-01", 3500);
+
+-> display all data of incentive table:
+
+ select * from incentive;
++-----------------+----------------+------------------+
+| employee_ref_id | incentive_date | incentive_amount |
++-----------------+----------------+------------------+
+|               1 | 2013-02-01     |             5000 |
+|               2 | 2013-02-01     |             3000 |
+|               3 | 2013-02-01     |             4000 |
+|               1 | 2013-01-01     |             4500 |
+|               2 | 2013-01-01     |             3500 |
++-----------------+----------------+------------------+
+
+-> Get First_Name from employee table using Tom name “Employee Name”.
+
+ select first_name as 'Employee Name' from employee where first_name = 'Tom';
++---------------+
+| Employee Name |
++---------------+
+| Tom           |
++---------------+
+
+-> Get FIRST_NAME, Joining Date, and Salary from employee table.
+
+ select first_name, joining_date, salary from employee;
++------------+---------------------+---------+
+| first_name | joining_date        | salary  |
++------------+---------------------+---------+
+| John       | 2013-01-01 12:00:00 | 1000000 |
+| Michael    | 2013-01-01 12:00:00 |  800000 |
+| Roy        | 2013-02-01 12:00:00 |  700000 |
+| Tom        | 2013-02-01 12:00:00 |  600000 |
+| Jerry      | 2013-02-01 12:00:00 |  650000 |
+| Philip     | 2013-01-01 12:00:00 |  750000 |
+| Issac      | 2013-01-01 12:00:00 |  650000 |
+| Thomas     | 2013-02-01 12:00:00 |  600000 |
++------------+---------------------+---------+
+
+-> Get all employee details from the employee table order by First_Name Ascending and Salary Descending?
+
+ select * from employee order by first_name ASC, salary DESC;
++-------------+------------+-----------+---------+---------------------+------------+
+| employee_id | first_name | last_name | salary  | joining_date        | department |
++-------------+------------+-----------+---------+---------------------+------------+
+|           7 | Issac      | Newton    |  650000 | 2013-01-01 12:00:00 | Services   |
+|           5 | Jerry      | Pinto     |  650000 | 2013-02-01 12:00:00 | Insurance  |
+|           1 | John       | Abraham   | 1000000 | 2013-01-01 12:00:00 | Banking    |
+|           2 | Michael    | Clarke    |  800000 | 2013-01-01 12:00:00 | Insurance  |
+|           6 | Philip     | Mathew    |  750000 | 2013-01-01 12:00:00 | Services   |
+|           3 | Roy        | Thomas    |  700000 | 2013-02-01 12:00:00 | Banking    |
+|           8 | Thomas     | Addison   |  600000 | 2013-02-01 12:00:00 | Insurance  |
+|           4 | Tom        | Jose      |  600000 | 2013-02-01 12:00:00 | Insurance  |
++-------------+------------+-----------+---------+---------------------+------------+
+
+-> Get employee details from employee table whose first name contains ‘J’.
+
+ select * from employee where first_name like '%J%';
++-------------+------------+-----------+---------+---------------------+------------+
+| employee_id | first_name | last_name | salary  | joining_date        | department |
++-------------+------------+-----------+---------+---------------------+------------+
+|           1 | John       | Abraham   | 1000000 | 2013-01-01 12:00:00 | Banking    |
+|           5 | Jerry      | Pinto     |  650000 | 2013-02-01 12:00:00 | Insurance  |
++-------------+------------+-----------+---------+---------------------+------------+
+
+-> Get department wise maximum salary from employee table order by salary ascending?
+
+ select department, max(salary) as max_salary from employee group by department order by max_salary ASC;
++------------+------------+
+| department | max_salary |
++------------+------------+
+| Services   |     750000 |
+| Insurance  |     800000 |
+| Banking    |    1000000 |
++------------+------------+
+
+-> Select first_name, incentive amount from employee and incentives table for those employees who have incentives and incentive amount greater than 3000
+
+ select e.first_name, i.incentive_amount from employee e join incentive i on e.employee_id = i.employee_ref_id where i.incentive_amount > 3000;
++------------+------------------+
+| first_name | incentive_amount |
++------------+------------------+
+| John       |             5000 |
+| Roy        |             4000 |
+| John       |             4500 |
+| Michael    |             3500 |
++------------+------------------+
+
+-> Create After Insert trigger on Employee table which insert records in view table
+
+=> first create table with same fields as employee table
+
+ CREATE TABLE employee_view (
+    ->     employee_id INT PRIMARY KEY,
+    ->     first_name VARCHAR(50),
+    ->     last_name VARCHAR(50),
+    ->     salary DECIMAL(10, 2),
+    ->     joining_date DATETIME,
+    ->     department VARCHAR(50)
+    -> );
+
+=> creating after insert trigger with employee table to insert records in employee_view table
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE TRIGGER after_employee_insert
+    -> AFTER INSERT ON employee
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO employee_view (employee_id, first_name, last_name, salary, joining_date, department)
+    ->     VALUES (NEW.employee_id, NEW.first_name, NEW.last_name, NEW.salary, NEW.joining_date, NEW.department);
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+
+-> inserting new data to check data insert in employee_view using trigger or not:
+
+mysql> INSERT INTO employee (employee_id, first_name, last_name, salary, joining_date, department)
+    -> VALUES (9, 'Emily', 'Smith', 850000, '2013-01-01 12:00:00', 'Banking');
+
+mysql> INSERT INTO employee (employee_id, first_name, last_name, salary, joining_date, department)
+    -> VALUES (10, 'Joseph', 'Clark', 800000, '2013-02-01 12:00:00', 'Services');
+
+-> show updated tables: 
+
+ SELECT * FROM employee_view;
++-------------+------------+-----------+-----------+---------------------+------------+
+| employee_id | first_name | last_name | salary    | joining_date        | department |
++-------------+------------+-----------+-----------+---------------------+------------+
+|           9 | Emily      | Smith     | 850000.00 | 2013-01-01 12:00:00 | Banking    |
+|          10 | Joseph     | Clark     | 800000.00 | 2013-02-01 12:00:00 | Services   |
++-------------+------------+-----------+-----------+---------------------+------------+
+
+ SELECT * FROM employee;
++-------------+------------+-----------+---------+---------------------+------------+
+| employee_id | first_name | last_name | salary  | joining_date        | department |
++-------------+------------+-----------+---------+---------------------+------------+
+|           1 | John       | Abraham   | 1000000 | 2013-01-01 12:00:00 | Banking    |
+|           2 | Michael    | Clarke    |  800000 | 2013-01-01 12:00:00 | Insurance  |
+|           3 | Roy        | Thomas    |  700000 | 2013-02-01 12:00:00 | Banking    |
+|           4 | Tom        | Jose      |  600000 | 2013-02-01 12:00:00 | Insurance  |
+|           5 | Jerry      | Pinto     |  650000 | 2013-02-01 12:00:00 | Insurance  |
+|           6 | Philip     | Mathew    |  750000 | 2013-01-01 12:00:00 | Services   |
+|           7 | Issac      | Newton    |  650000 | 2013-01-01 12:00:00 | Services   |
+|           8 | Thomas     | Addison   |  600000 | 2013-02-01 12:00:00 | Insurance  |
+|           9 | Emily      | Smith     |  850000 | 2013-01-01 12:00:00 | Banking    |
+|          10 | Joseph     | Clark     |  800000 | 2013-02-01 12:00:00 | Services   |
++-------------+------------+-----------+---------+---------------------+------------+
+
+-> stop or drop trigger to not insert data into both tables:
+
+ DROP TRIGGER after_employee_insert;

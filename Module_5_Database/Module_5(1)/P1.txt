@@ -1,0 +1,88 @@
+Create following tables : Student and Exam
+
+-> creating database:
+
+ create database student_info;
+
+-> using database:
+
+ use student_info;
+
+-> create student table:
+
+ create table student(roll_no int primary key, name varchar(20) not null, branch_name varchar(50) not null);
+
+-> create exam table:
+
+ create table exam (roll_no int, s_code varchar(10) not null, marks int not null, p_code varchar(10) not null, foreign key (roll_no) 
+ references student(roll_no));
+
+-> student table details with fields:
+
+ describe student;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| roll_no     | int         | NO   | PRI | NULL    |       |
+| name        | varchar(20) | NO   |     | NULL    |       |
+| branch_name | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+-> exam table details with fields:
+
+ describe exam;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | int         | YES  | MUL | NULL    |       |
+| s_code  | varchar(10) | NO   |     | NULL    |       |
+| marks   | int         | NO   |     | NULL    |       |
+| p_code  | varchar(10) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+-> show tables are created or not:
+ show tables;
++------------------------+
+| Tables_in_student_info |
++------------------------+
+| exam                   |
+| student                |
++------------------------+
+
+-> inserting data to table student:
+
+ insert into student (roll_no, name, branch_name) values (1, "Jay", "Computer Science");
+
+ insert into student (roll_no, name, branch_name) values (2, "Suhani", "Electronic and Communication");
+
+ insert into student (roll_no, name, branch_name) values (3, "Kirti", "Electronic and Communication");
+
+-> display table student :
+
+ select * from student;
++---------+--------+------------------------------+
+| roll_no | name   | branch_name                  |
++---------+--------+------------------------------+
+|       1 | Jay    | Computer Science             |
+|       2 | Suhani | Electronic and Communication |
+|       3 | Kirti  | Electronic and Communication |
++---------+--------+------------------------------+
+
+-> inserting data to table exam:
+
+ insert into exam (roll_no, s_code, marks, p_code) values (1, "CS11", 50, "CS"),(1, "CS12", 60, "CS"),(2, "EC101", 66, "EC"),
+ (2, "EC102", 70, "EC"),(3, "EC101", 45, "EC"),(3, "EC102", 50, "EC");
+
+-> display table exam :
+
+ select * from exam;
++---------+--------+-------+--------+
+| roll_no | s_code | marks | p_code |
++---------+--------+-------+--------+
+|       1 | CS11   |    50 | CS     |
+|       1 | CS12   |    60 | CS     |
+|       2 | EC101  |    66 | EC     |
+|       2 | EC102  |    70 | EC     |
+|       3 | EC101  |    45 | EC     |
+|       3 | EC102  |    50 | EC     |
++---------+--------+-------+--------+
